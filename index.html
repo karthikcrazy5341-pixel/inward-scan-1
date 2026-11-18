@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Inward Scan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{color-scheme:light dark;--bg:#f5f6f8;--card:#fff;--tx:#1b1f24;--mu:#6b7280;--bd:#dfe3e8;--ac:#1a6ef0;--ok:#16a34a;--er:#dc2626;--wr:#d97706}
+@media(prefers-color-scheme:dark){:root{--bg:#111418;--card:#1b2026;--tx:#e8eaed;--mu:#9aa3ae;--bd:#2c333b;--ac:#5b9bff}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px system-ui,sans-serif}
+.w{max-width:900px;margin:0 auto;padding:12px}
+.c{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:12px}
+h1{font-size:18px;margin:4px 0 12px}h2{font-size:14px;margin:0 0 8px;color:var(--mu);font-weight:600}
+.r{display:flex;gap:8px;flex-wrap:wrap;align-items:end}.r>div{flex:1;min-width:140px}
+label{display:block;font-size:12px;color:var(--mu);margin-bottom:3px}
+input,select,button,textarea{width:100%;font:inherit;padding:10px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx)}
+button{background:var(--ac);color:#fff;border:0;cursor:pointer;width:auto}button.g{background:transparent;color:var(--ac);border:1px solid var(--bd)}
+#awb{font-size:22px;padding:14px;border:2px solid var(--ac)}
+#msg{margin-top:10px;padding:12px;border-radius:8px;font-weight:600;display:none}
+.ok{background:var(--ok);color:#fff}.er{background:var(--er);color:#fff}.wr{background:var(--wr);color:#fff}
+.k{display:flex;gap:8px}.k>div{flex:1;text-align:center;padding:10px;border:1px solid var(--bd);border-radius:8px}.k b{display:block;font-size:24px}
+.t{overflow-x:auto}table{width:100%;border-collapse:collapse}td,th{padding:6px 8px;text-align:left;border-bottom:1px solid var(--bd);white-space:nowrap}th{color:var(--mu);font-size:12px}
+.sm{font-size:12px;color:var(--mu)}video{width:100%;border-radius:8px;display:none;margin-top:8px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+#auth,#setpw{max-width:380px;margin:40px auto}
+.hide{display:none}
+</style></head><body><div class="w">
+
+<div id="auth" class="c hide">
+  <h1>Inward Scan</h1>
+  <div style="margin-bottom:8px"><label>Email</label><input id="em" type="email" autocomplete="username"></div>
+  <div style="margin-bottom:12px"><label>Password</label><input id="pw" type="password" autocomplete="current-password"></div>
+  <button id="lg" style="width:100%">Sign in</button>
+  <div style="margin-top:10px"><button class="g" id="fg" style="width:100%">Forgot password</button></div>
+  <div id="amsg" style="margin-top:10px;font-weight:600"></div>
+  <div class="sm" style="margin-top:10px">Accounts are created by your admin. Check your email for an invite.</div>
+</div>
+
+<div id="setpw" class="c hide">
+  <h1 id="spt">Choose a password</h1>
+  <div style="margin-bottom:12px"><label>New password</label><input id="np" type="password" autocomplete="new-password"></div>
+  <button id="sp" style="width:100%">Save password</button>
+  <div id="smsg" style="margin-top:10px;font-weight:600"></div>
+</div>
+
+<div id="app" class="hide">
+<div class="top"><h1>Inward Scan</h1><button class="g" id="lo">Sign out</button></div>
+<div id="who" class="sm" style="margin-bottom:8px"></div>
+
+<div class="c"><div class="r">
+<div><label>LSP</label><select id="lsp"></select></div>
+<div><label>Marketplace</label><select id="mp"></select></div>
+<div><label>Status</label><select id="st"><option>Received</option><option>Rejected</option></select></div>
+<div id="rmw" class="hide"><label>Remark</label><input id="rm" placeholder="Reason"></div>
+</div>
+<div id="adm1" class="hide">
+<div class="r" style="margin-top:8px"><div><textarea id="newlsp" rows="3" placeholder="Add LSPs: one per line or separated by commas"></textarea></div><div style="flex:0"><button class="g" id="al">Add</button></div>
+<div><textarea id="newmp" rows="3" placeholder="Add marketplaces: one per line or separated by commas"></textarea></div><div style="flex:0"><button class="g" id="am">Add</button></div></div>
+<div class="r" style="margin-top:8px"><div style="flex:0"><button class="g" id="rl">Remove selected LSP</button></div><div style="flex:0"><button class="g" id="rmk">Remove selected marketplace</button></div></div>
+<div class="sm" style="margin-top:8px">Users are managed in the Netlify dashboard under Identity.</div>
+</div>
+<div id="anote" style="margin-top:8px;font-weight:600"></div></div>
+
+<div class="c"><label>Scan AWB (USB or Bluetooth scanner types here and presses Enter)</label>
+<input id="awb" autocomplete="off" inputmode="text" placeholder="Scan or type AWB, press Enter">
+<div style="margin-top:8px"><button class="g" id="cam">Use phone camera</button></div><video id="v" playsinline muted></video>
+<div id="msg"></div></div>
+
+<div class="c"><h2>Today</h2><div class="k"><div><b id="nr">0</b>Received</div><div><b id="nj">0</b>Rejected</div></div></div>
+<div class="c"><h2>Today by marketplace</h2><div class="t"><table id="tm"></table></div></div>
+<div class="c"><h2>Today by scanner</h2><div class="t"><table id="ts"></table></div></div>
+<div class="c"><h2>Today by LSP</h2><div class="t"><table id="tl"></table></div></div>
+<div class="c"><h2>Rejected today</h2><div class="t"><table id="tj2"></table></div></div>
+<div class="c"><div class="r"><div><h2>Last 20 scans</h2></div>
+<div style="flex:0"><input type="date" id="csvd"></div><div style="flex:0"><button class="g" id="dl">Download CSV</button></div></div>
+<div class="t"><table id="tr"></table></div><div class="sm" id="cap"></div></div>
+<div class="c hide" id="delcard"><h2>Deleted history (latest 200)</h2><div class="t"><table id="td"></table></div></div>
+<div class="c"><h2>About this app</h2><div class="sm">Pick the LSP, marketplace and status, then scan. The same AWB cannot be saved twice. Only admins can delete a scan, and every delete is kept in Deleted history with who did it and when. Removing an LSP or marketplace from the dropdowns does not change old scans. Dates and the Today totals use India time (IST). The page shows scans from today and yesterday. Download CSV exports the day you pick.</div></div>
+</div>
+
+</div>
+<script src="/app.js"></script>
+</body></html>
