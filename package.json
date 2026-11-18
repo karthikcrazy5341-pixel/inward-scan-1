@@ -1,0 +1,16 @@
+{
+  "name": "inward-scan",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/app.js --bundle --minify --outfile=public/app.js"
+  },
+  "dependencies": {
+    "@netlify/blobs": "latest",
+    "@netlify/identity": "latest"
+  },
+  "devDependencies": {
+    "esbuild": "latest"
+  }
+}
